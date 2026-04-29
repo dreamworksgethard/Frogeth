@@ -36,6 +36,22 @@
       overflow-x: hidden;
     }
 
+    body.js-ready .scroll-reveal {
+      opacity: 0;
+      transform: translateY(26px) scale(0.985);
+      transition:
+        opacity 0.55s ease,
+        transform 0.55s ease,
+        filter 0.55s ease;
+      filter: saturate(0.86);
+    }
+
+    body.js-ready .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: saturate(1);
+    }
+
     /* animated pond background */
     .bg-stage {
       position: fixed;
@@ -171,15 +187,19 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1.25rem 4rem;
+      transform: translateY(calc(var(--scroll-y, 0) * -0.01px));
+      transition: transform 0.16s linear;
     }
 
     header {
       display: flex;
+      flex-direction: row;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       padding: 1rem 0;
+      gap: 0.8rem;
+      position: relative;
       flex-wrap: wrap;
-      gap: 1rem;
     }
 
     .brand {
@@ -191,6 +211,10 @@
       font-size: 1.35rem;
       color: var(--slime);
       letter-spacing: -0.02em;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     .brand img {
@@ -206,6 +230,7 @@
       display: flex;
       gap: 0.5rem 1rem;
       flex-wrap: wrap;
+      justify-content: center;
       font-size: 0.95rem;
       font-weight: 600;
     }
@@ -213,7 +238,7 @@
     nav a {
       color: var(--cream);
       opacity: 0.9;
-      padding: 0.35rem 0.6rem;
+      padding: 0.35rem 0.95rem;
       border-radius: 999px;
       transition: background 0.2s, color 0.2s;
     }
@@ -222,6 +247,24 @@
       background: var(--lily);
       color: var(--slime);
       text-decoration: none;
+    }
+
+    nav a[href*="x.com"],
+    nav a[href*="t.me"] {
+      border: 1px solid rgba(110, 231, 183, 0.4);
+      background: rgba(20, 61, 40, 0.9);
+      color: var(--mint);
+    }
+
+    nav a[href*="x.com"] {
+      margin-left: 1rem;
+    }
+
+    nav a[href*="x.com"]:hover,
+    nav a[href*="t.me"]:hover {
+      background: rgba(200, 249, 2, 0.88);
+      color: var(--pond);
+      border-color: rgba(200, 249, 2, 0.95);
     }
 
     .hero {
@@ -233,6 +276,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      transform: translateY(calc(var(--scroll-y, 0) * -0.045px));
     }
 
     .hero-logo-wrap {
@@ -467,6 +511,7 @@
         radial-gradient(ellipse 70% 55% at 95% 20%, rgba(110, 231, 183, 0.09), transparent 60%),
         rgba(20, 61, 40, 0.55);
       box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+      transform: translateY(calc(var(--scroll-y, 0) * -0.018px));
     }
 
     .about-title {
@@ -761,6 +806,7 @@
       background: rgba(10, 31, 20, 0.55);
       overflow: hidden;
       position: relative;
+      transform: translateY(calc(var(--scroll-y, 0) * -0.012px));
     }
 
     .banner::before {
@@ -850,6 +896,47 @@
         radial-gradient(ellipse 75% 55% at 0% 20%, rgba(255, 107, 157, 0.12), transparent 62%),
         radial-gradient(ellipse 70% 55% at 100% 10%, rgba(110, 231, 183, 0.08), transparent 60%),
         rgba(20, 61, 40, 0.5);
+      transform: translateY(calc(var(--scroll-y, 0) * -0.01px));
+    }
+
+    body.scrolling-down .hero-badge {
+      box-shadow: 0 0 0 1px rgba(200, 249, 2, 0.25), 0 8px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    body.scrolling-up .hero-badge {
+      box-shadow: 0 0 0 1px rgba(110, 231, 183, 0.3), 0 10px 22px rgba(0, 0, 0, 0.24);
+    }
+
+    body.scrolling-up .scroll-reveal.is-visible {
+      transform: translateY(-6px) scale(1.005);
+      filter: saturate(1.06);
+    }
+
+    body.scrolling-up .chip {
+      transform: translateY(-2px);
+      border-color: rgba(110, 231, 183, 0.4);
+    }
+
+    body.scrolling-up #buy,
+    body.scrolling-up #tokenomics,
+    body.scrolling-up #community {
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .wrap,
+      .hero,
+      .about-card,
+      .banner,
+      .og-card {
+        transform: none !important;
+      }
+
+      body.js-ready .scroll-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
     }
 
     .og-card h3 {
@@ -932,48 +1019,60 @@
       margin-top: 1rem;
       position: relative;
       border-radius: 16px;
-      padding: 5px;
+      padding: 4px;
       overflow: hidden;
+      background: rgba(10, 31, 20, 0.78);
     }
 
     .og-media::before {
       content: "";
       position: absolute;
-      inset: -35%;
-      background: conic-gradient(
-        from 0deg,
-        rgba(200, 249, 2, 0.95),
-        rgba(110, 231, 183, 0.88),
-        rgba(255, 107, 157, 0.82),
-        rgba(200, 249, 2, 0.95)
-      );
-      animation: ogBorderSpin 6.5s linear infinite;
+      inset: 0;
+      border-radius: inherit;
+      background:
+        linear-gradient(115deg,
+          rgba(200, 249, 2, 0.9) 0%,
+          rgba(110, 231, 183, 0.85) 35%,
+          rgba(255, 107, 157, 0.72) 65%,
+          rgba(200, 249, 2, 0.92) 100%);
+      background-size: 220% 220%;
+      animation: ogBorderFlow 5.5s ease-in-out infinite;
       z-index: 0;
-      opacity: 0.85;
-      filter: blur(2px);
+      opacity: 0.95;
+    }
+
+    .og-media::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(244, 255, 240, 0.22);
+      box-shadow:
+        inset 0 0 22px rgba(110, 231, 183, 0.15),
+        0 0 28px rgba(200, 249, 2, 0.12);
+      pointer-events: none;
+      z-index: 1;
     }
 
     .og-media img {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       display: block;
       width: 100%;
       height: auto;
       border-radius: 12px;
       background: rgba(10, 31, 20, 0.8);
-      box-shadow:
-        inset 0 0 0 4px rgba(200, 249, 2, 0.62),
-        inset 0 0 22px rgba(110, 231, 183, 0.2),
-        0 0 0 2px rgba(110, 231, 183, 0.44);
     }
 
-    @keyframes ogBorderSpin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes ogBorderFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .og-media::before {
+      .og-media::before,
+      .og-media::after {
         animation: none !important;
       }
     }
@@ -1563,14 +1662,19 @@
         <span>FROG</span>
       </div>
       <nav>
+        <a href="#top">Home</a>
         <a href="#about">About</a>
+        <a href="#og">First Deployed</a>
         <a href="#tokenomics">Tokenomics</a>
         <a href="#buy">How to buy</a>
+        <a href="#community">Community</a>
+        <a href="https://x.com/OGfrog_eth" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="https://t.me/OGfrog_eth" target="_blank" rel="noopener noreferrer">TG</a>
       </nav>
     </header>
 
     <main>
-      <div class="hero">
+      <div class="hero scroll-reveal" id="top">
         <div class="hero-logo-wrap" aria-hidden="true">
           <img class="hero-logo" src="Frog%20logo%20eth%20.jpg" alt="Frog mascot" width="280" height="280" />
         </div>
@@ -1585,7 +1689,7 @@
         </div>
       </div>
 
-      <section id="about" class="about-card">
+      <section id="about" class="about-card scroll-reveal">
         <div class="about-title">Welcome to the pond.</div>
         <p class="about-lead"><strong>Frog $FROG</strong> is a meme coin for people who like green charts, silly vibes, and a clean ribbit. No corporate cringe. No complicated lore.</p>
         <p class="about-sub">Built for fun on Ethereum. Community runs the pond. If you smiled once reading this, the frog already won.</p>
@@ -1612,7 +1716,7 @@
         <div class="about-fineprint">Not financial advice. Just frogs.</div>
       </section>
 
-      <div class="banner" aria-hidden="true">
+      <div class="banner scroll-reveal" aria-hidden="true">
         <div class="marquee">
           <div class="marquee-track">
             <span class="hi">FROG</span> <span class="dot">•</span> <span>$FROG</span> <span class="dot">•</span> <span class="hi">OG ON ETH</span> <span class="dot">•</span> <span>RIBBIT</span> <span class="dot">•</span>
@@ -1623,7 +1727,7 @@
         </div>
       </div>
 
-      <section class="og-card big-section" id="og">
+      <section class="og-card big-section scroll-reveal" id="og">
         <h3>The first deployed OG Frog on ETH — the only one.</h3>
         <p>This is the original Frog that landed on Ethereum about <strong>3 years ago</strong>. No clones, no reboots.</p>
         <p>If you’re here for the OG, you’re in the right pond. Ribbit.</p>
@@ -1632,7 +1736,7 @@
         </div>
       </section>
 
-      <section id="tokenomics" class="tokenomics-future">
+      <section id="tokenomics" class="tokenomics-future scroll-reveal">
         <h2><span aria-hidden="true">📊</span> Tokenomics</h2>
         <p>Neon stats board for the OG frog contract. Clean numbers. Zero fluff.</p>
         <div class="token-grid-next" aria-label="Tokenomics">
@@ -1680,7 +1784,7 @@
         </div>
       </section>
 
-      <section id="buy" class="big-section">
+      <section id="buy" class="big-section scroll-reveal">
         <h2><span aria-hidden="true">🛒</span> How to buy</h2>
         <ol class="steps">
           <li>Install a wallet (e.g. MetaMask) and put some ETH in it.</li>
@@ -1690,7 +1794,7 @@
         </ol>
       </section>
 
-      <section id="community" class="community">
+      <section id="community" class="community scroll-reveal">
         <h2><span aria-hidden="true">🚀</span> Join Community</h2>
         <p>Raid with the frogs, post memes, and keep the OG pond loud 24/7. The next candle starts with the community.</p>
         <div class="community-links">
@@ -1709,6 +1813,8 @@
 
   <script>
     (function () {
+      document.body.classList.add("js-ready");
+
       var addr = "0x302dD256C644E762016508c28dA496224a71d5C9";
       document.querySelectorAll(".copy-ca-btn").forEach(function (btn) {
         btn.addEventListener("click", function () {
@@ -1722,6 +1828,45 @@
             }, 1600);
           });
         });
+      });
+
+      var root = document.documentElement;
+      var lastY = window.scrollY || 0;
+      var ticking = false;
+      var updateScrollFx = function () {
+        var y = window.scrollY || 0;
+        root.style.setProperty("--scroll-y", String(y));
+        if (y > lastY + 1) {
+          document.body.classList.add("scrolling-down");
+          document.body.classList.remove("scrolling-up");
+        } else if (y < lastY - 1) {
+          document.body.classList.add("scrolling-up");
+          document.body.classList.remove("scrolling-down");
+        }
+        lastY = y;
+        ticking = false;
+      };
+
+      window.addEventListener("scroll", function () {
+        if (!ticking) {
+          window.requestAnimationFrame(updateScrollFx);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateScrollFx();
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          } else if (entry.boundingClientRect.top > 0) {
+            entry.target.classList.remove("is-visible");
+          }
+        });
+      }, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
+
+      document.querySelectorAll(".scroll-reveal").forEach(function (el) {
+        observer.observe(el);
       });
     })();
   </script>
